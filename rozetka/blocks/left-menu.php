@@ -77,8 +77,8 @@
     </div>
     <div class="left-menu-apps">
         <h3>Скачивайте наши приложения</h3>
-        <img src="svg/button-google-play-ru.svg" alt="">
-        <img src="svg/button-appstore-ru.svg" alt="">
+        <a target="_blank" href="https://play.google.com/store/apps/details/?id=ua.com.rozetka.shop&referrer=utm_source%3Dfullversion%26utm_medium%3Dsite%26utm_campaign%3Dfullversion"><img src="svg/button-google-play-ru.svg" alt=""></a>
+        <a target="_blank" href="https://itunes.apple.com/app/apple-store/id740469631/?pt=3132803&ct=fullversion&at=1000l3MB&mt=8"><img src="svg/button-appstore-ru.svg" alt=""></a>
     </div>
     <div class="left-menu-socials">
 
