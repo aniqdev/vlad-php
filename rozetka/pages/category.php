@@ -1,4 +1,12 @@
 <?php if(!defined('ROOT')) die('Direct request not allowed!'); ?>
+<?php
+$offset = $_GET['offset'] ?? 0;
+$limit = $_GET['limit'] ?? 10;
+$total_count = count($similar_products);
+// [1,2,3,4,4,5,6,6,7,7,8]
+$similar_products = array_slice($similar_products, $offset, $limit);
+$product_count = count($similar_products);
+?>
 <div class="category">
     <ul class="breadcrumbs">
         <li class="breadcrumb-item home">
@@ -21,19 +29,14 @@
     </ul>
     <div></div>
     <h2 class="category-title text-center">Product category</h2>
-    <div class="pagination">
-        <a href="#" class="prev"></a>
-        <ul>
-            <li><a href="">1</a></li>
-            <li><a href="">2</a></li>
-            <li><a href="">3</a></li>
-            <li><a href="">4</a></li>
-            <li><a href="">5</a></li>
-            <li><a href="">6</a></li>
-            <li><a href="">7</a></li>
-            <li><a href="">8</a></li>
-        </ul>
-        <a href="#" class="next"></a>
+    <?php my_pagination($offset, $limit, $total_count); ?>
+    <div class="before-products">
+        <div class="count">
+            Показано <?= $product_count ?> товар<?= sklonenie($product_count, '', 'а', 'ов') ?>
+        </div>
+        <div class="sorting">
+
+        </div>
     </div>
     <div class="products">
     <?php foreach($similar_products as $id => $product): ?>
