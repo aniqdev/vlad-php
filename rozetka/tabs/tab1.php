@@ -85,9 +85,50 @@
                         <b>+ 14 бонусных ₴ </b>&nbsp; при покупке этого товара &nbsp;<a href="#"> для владельцев Premium</a>
                     </div>
                 </div>
-
+                <div class="specs">
+                    <h2>Характеристики</h2>
+                    <ul class="fast-info">
+                    <?php foreach($product['fast_info'] as $spec => $value): ?>
+                        <li>
+                            <span class="spec-name"><s><?= $spec ?>:</s></span>
+                            <span class="spec-value"><?= $value ?></span>
+                        </li>
+                    <?php endforeach; ?>
+                    </ul>
+                </div>
             </div>
 
         </div>
+
     </div>
+    <div class="product-bottom">
+        <div class="description">
+            <h2>Описание</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam nihil ab, asperiores consequatur ea reprehenderit. Officia qui aliquid, quo, consectetur tenetur aperiam, asperiores quos deserunt repellat quod a sed harum?</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione saepe cumque aliquam autem est cupiditate. Eos, in. Consequuntur modi, repellendus odit quae commodi nesciunt molestiae minus, itaque quibusdam magni numquam?</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis aliquam vero repudiandae obcaecati perspiciatis porro doloribus quae ipsa nihil. Adipisci, natus molestiae quis neque nisi fugit culpa excepturi dicta tempore.</p>
+        </div>
+        <div class="reviews">
+            <h2>Отзывы покупателей</h2>
+            <div class="review-block">
+                <div class="review-head">Жанна Аркадьевна <span class="date"><i class="bi bi-clock"></i> 19 сентября 2019</span></div>
+                <div class="review-body">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae id consequatur inventore expedita esse incidunt corrupti maxime aliquam labore libero, nam excepturi officia harum non, nemo laudantium veritatis perspiciatis quasi.
+                </div>
+            </div>
+            <div class="review-block">
+                <div class="review-head">Жанна Аркадьевна <span class="date"><i class="bi bi-clock"></i> 19 сентября 2019</span></div>
+                <div class="review-body">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae id consequatur inventore expedita esse incidunt corrupti maxime aliquam labore libero, nam excepturi officia harum non, nemo laudantium veritatis perspiciatis quasi.
+                </div>
+            </div>
+            <div class="review-block">
+                <div class="review-head">Жанна Аркадьевна <span class="date"><i class="bi bi-clock"></i> 19 сентября 2019</span></div>
+                <div class="review-body">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae id consequatur inventore expedita esse incidunt corrupti maxime aliquam labore libero, nam excepturi officia harum non, nemo laudantium veritatis perspiciatis quasi.
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

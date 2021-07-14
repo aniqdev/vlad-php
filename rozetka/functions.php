@@ -76,9 +76,11 @@ function sklonenie($count, $p1, $p2, $p3)
 function my_pagination($offset, $limit, $total_count)
 {
     if($total_count < $limit) return '';
-    $action = $_GET['action'];
-    $new_offset = in_range($offset - $limit, 0, $total_count - 1);
-    $prev_link = "?action=$action&offset=$new_offset&limit=$limit";
+    $new_offset = in_range($offset - $limit, 0, $total_count);
+    $prev_link = query_add(['offset' => $new_offset]);
+    // "?action=$action&offset=$new_offset&limit=$limit";
+    $new_offset = in_range($offset + $limit, 0, $total_count);
+    $next_link = query_add(['offset' => $new_offset]);
 ?>
 <div class="pagination">
     <?php if($offset > 0): ?>
@@ -87,17 +89,42 @@ function my_pagination($offset, $limit, $total_count)
         <a class="prev disabled"><i class="bi bi-arrow-left"></i></a>
     <?php endif ?>
     <ul>
-        <li><a href="">1</a></li>
-        <li><a href="">2</a></li>
-        <li><a href="">3</a></li>
-        <li><a href="">4</a></li>
-        <li><a href="">5</a></li>
-        <li><a href="">6</a></li>
-        <li><a href="">7</a></li>
-        <li><a href="">8</a></li>
+        <?php
+        $left_prefix = $right_prefix = '';
+        $last_page = ceil($total_count / $limit);
+        $link_first_page = query_add(['offset' => 0]);
+        //"?action=$action&offset=0&limit=$limit";
+        $link_last_page = query_add(['offset' => $last_page]);
+        //"?action=$action&offset=$last_page&limit=$limit";
+        // ceil($total_count / $limit) = количество страниц
+        $button_count = 0;
+        $current_page = floor($offset / $limit);
+        $from = $current_page - 2;
+        if($current_page >= 3) $left_prefix = "<li><a href='$link_first_page'>1</a></li><li>...</li>";
+        if($current_page === 3) $left_prefix = "<li><a href='$link_first_page'>1</a></li>";
+        if($from < 0) $from = 0;
+        $to = $current_page + 3;
+        if($to > $last_page) $to = $last_page;
+        if($last_page - $current_page > 3) $right_prefix = "<li>...</li><li><a href='$link_last_page'>$last_page</a></li>";
+        if($last_page - $current_page == 4) $right_prefix = "<li><a href='$link_last_page'>$last_page</a></li>";
+        echo $left_prefix;
+        for ($i=$from; $i < $to; $i++):
+            // $new_offset = $i * $limit;
+            $link = query_add(['offset' => $i * $limit]);
+            //"?action=$action&offset=$new_offset&limit=$limit";
+            $button_count++;
+            if($current_page )
+        ?>
+            <?php if($current_page == $i): ?>
+                <li><a class="active"><?= $i + 1 ?></a></li>
+            <?php else: ?>
+                <li><a href="<?= $link ?>"><?= $i + 1 ?></a></li>
+            <?php endif ?>
+        <?php endfor;
+        echo $right_prefix; ?>
     </ul>
     <?php if($total_count > $offset + $limit): ?>
-        <a href="#" class="prev active"><i class="bi bi-arrow-right"></i></a>
+        <a href="<?= $next_link ?>" class="prev active"><i class="bi bi-arrow-right"></i></a>
     <?php else: ?>
         <a class="prev disabled"><i class="bi bi-arrow-right"></i></a>
     <?php endif ?>
@@ -110,4 +137,23 @@ function in_range($number, $min, $max)
     if($number < $min) return $min;
     if($number > $max) return $max;
     return $number;
+}
+
+function query_add($values = [])
+{
+    $new_array = array_merge($_GET, $values);
+    return '?' . http_build_query($new_array);
+}
+
+function if_selected($name, $value)
+{
+    if(empty($_GET[$name])) return '';
+    return $_GET[$name] === $value ? 'selected' : '';
+}
+
+function pa($arr)
+{
+    echo '<pre>';
+    print_r($arr);
+    echo '</pre>';
 }

@@ -1,5 +1,11 @@
 <footer>
-
+	<div class="footer-head">
+		<div class="caption">Скачивайте наши приложения</div>
+		<div class="apps">
+			<a target="_blank" href="https://play.google.com/store/apps/details/?id=ua.com.rozetka.shop&amp;referrer=utm_source%3Dfullversion%26utm_medium%3Dsite%26utm_campaign%3Dfullversion"><img src="svg/button-google-play-ru.svg" alt=""></a>
+			<a target="_blank" href="https://itunes.apple.com/app/apple-store/id740469631/?pt=3132803&amp;ct=fullversion&amp;at=1000l3MB&amp;mt=8"><img src="svg/button-appstore-ru.svg" alt=""></a>
+		</div>
+	</div>
 </footer>
 
 <?php include 'blocks/modal-login.php' ?>
