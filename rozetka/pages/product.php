@@ -6,6 +6,13 @@ $product = $similar_products[$product_id];
 // print_r($_GET);
 // print_r($similar_products);
 // print_r($product);
+if(isset($_GET['fake'])){
+    $faker = Faker\Factory::create();
+    $product = array_merge($product, [
+        'title' => $faker->jobTitle(),
+        'price' => $faker->randomFloat(2, 0, 10000),
+    ]);
+}
 ?>
 </pre>
 <div class="product-page">

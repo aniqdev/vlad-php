@@ -81,7 +81,15 @@
         <a target="_blank" href="https://itunes.apple.com/app/apple-store/id740469631/?pt=3132803&ct=fullversion&at=1000l3MB&mt=8"><img src="svg/button-appstore-ru.svg" alt=""></a>
     </div>
     <div class="left-menu-socials">
-
+        <h3>Мы в социальных сетях</h3>
+        <ul>
+            <li><a href="#" class="left-menu-socials-facebook"><?php include "svg/facebook.svg" ?></a> </li>
+            <li><a href="#"  class="left-menu-socials-twitter"><?php include "svg/twitter.svg" ?></a></li>
+            <li><a href="#"  class="left-menu-socials-youtube2"><?php include "svg/youtube2.svg" ?></a></li>
+            <li><a href="#"  class="left-menu-socials-instagram"><?php include "svg/instagram.svg" ?></a></li>
+            <li><a href="#"  class="left-menu-socials-viber"><?php include "svg/viber.svg" ?></a></li>
+            <li><a href="#"  class="left-menu-socials-telegram"><?php include "svg/telegram.svg" ?></a></li>
+        </ul>
     </div>
     <div class="left-menu-logout">
 
