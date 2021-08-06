@@ -169,7 +169,7 @@ img{
     flex-wrap: wrap;
 }
 
-.sidebar{
+.sidebar-wrapper{
     width: 30%;
 }
 
@@ -267,6 +267,7 @@ div:hover{
     border: 1px solid #eaeaea;
     margin-right: -1px;
     margin-top: -1px;
+    height: 100%;
 }
 
 .products .product img{
@@ -910,6 +911,25 @@ div:hover{
 
 
 
+@media (max-width: 991px){
+    .sidebar-wrapper{
+        position: fixed;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        top: 0;
+        display: none;
+    }
+}
+@media (min-width: 992px){
+    .sidebar-wrapper{
+        display: block;
+    }
+    .open-sidebar-button{
+        display: none;
+    }
+}
 /* LEFT MENU  */
 .left-menu-wrapper{
     position: fixed;
@@ -920,7 +940,8 @@ div:hover{
     top: 0;
     display: none;
 }
-.left-menu-wrapper.active{
+.left-menu-wrapper.active,
+.sidebar-wrapper.active{
     display: block;
 }
 .left-menu{
@@ -933,16 +954,20 @@ div:hover{
     min-width: 300px;
     overflow-y: auto;
 }
-.left-menu-wrapper.active .left-menu{
+.left-menu-wrapper.active .left-menu,
+.sidebar-wrapper.active .sidebar{
     animation: .4s left-menu-show;
 }
-.left-menu-wrapper.fade .left-menu{
+.left-menu-wrapper.fade .left-menu,
+.sidebar-wrapper.fade .sidebar{
     animation: .5s left-menu-fade;
 }
-.left-menu-wrapper.active{
+.left-menu-wrapper.active,
+.sidebar-wrapper.active{
     animation: .4s left-menu-wrapper-show;
 }
-.left-menu-wrapper.fade{
+.left-menu-wrapper.fade,
+.sidebar-wrapper.fade{
     animation: .5s left-menu-wrapper-fade;
 }
 @keyframes left-menu-show{
@@ -1374,6 +1399,7 @@ a[target="_blank"]::after{
     border-radius: 4px;
 }
 
+
 .category .fast-info{
     color: #797878;
     font-size: 12px;
@@ -1542,56 +1568,208 @@ a[target="_blank"]::after{
 }
 
 
+/* 404 */
+.not-found{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
 
-
-
-
-
-
-
-
-@media (max-width: 767px){
-    .product-images,
-    .product-options{
-        width: 100%;
-    }
-    .footer-columns ul {
-        width: 50%;
-        padding-left: 0;
-    }
-    .product-page .product-bottom .description,
-    .product-page .product-bottom .reviews{
-        width: 100%;
-        padding-left: 0;
-    }
-    .product-tabs-item {
-        width: 100%;
-    }
-    .delivery svg {
-        width: 60px;
-        height: 60px;
-    }
-    .delivery-text {
-        bottom: 13px;
-        font-size: 6px;
-    }
-    .badges > div{
-        font-size: .5em;
-    }
-    .product-page .fast-info {
-        font-size: .6em;
-    }
-    .product-page .spec-name {
-        width: 80%;
-    }
-    .product-page .spec-name s::after {
-        bottom: 6px;
-    }
-    .product-about .trade > div{
-        margin-bottom: 10px;
-    }
+}
+.not-found h1{
+    justify-content: center;
+    color: #00a046;
+    font-size: 100px;
+    margin-top: 25px;
+    margin-bottom: 15px;
 }
 
-@media (max-width: 991px){
+.not-found a{
+    padding: 15px;
+    margin-bottom: 10px;
+    background: #00a046;
+    border-radius: 7px;
+    color: white;
+    margin-top: 25px;
+    display: inline-block;
+}
 
+.not-found img{
+    width: 30%;
+    padding: 10px;
+    margin: 20px;
+    max-width: 350px;
+}
+
+.not-found .info{
+    width: 35%;
+    text-align: center;
+}
+
+.category .products.list{
+    display: block;
+}
+.category .products.list .product{
+    display: flex;
+    width: 100%;
+}
+.category .products.list .category-list-item-left{
+    width: 30%;
+}
+.category .products.list .category-list-item-right{
+    width: 70%;
+    margin-left: 30px;
+}
+
+
+.category .view-type{
+    display: inline-block;
+    margin: 0px 10px 0px 10px;
+}
+
+.category .view-type input{
+    display: none;
+}
+
+.category .view-type label{
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.category .view-type input:checked + label{
+    background-color: #d0ecdb;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 991px){
+    .not-found img,
+    .not-found .info{
+      width: 100%;
+      }
+      .category .product{
+          width: 25%;
+      }
+      .main .products .product-wrapper{
+          width: 25%;
+      }
+      .main .main-content{
+          width: 100%;
+      }
+      .sidebar-wrapper{
+        z-index: 111111;
+      }
+      .sidebar{
+        position: fixed;
+        height: 100%;
+        left: 0;
+        top: 0;
+        width: 320px;
+        z-index: 111111;
+        background: white;
+        overflow-y: auto;
+      }
+  }
+  
+  
+  @media (max-width: 767px){
+      .product-images,
+      .product-options{
+          width: 100%;
+      }
+      .footer-columns ul{
+          width: 50%;
+          padding-left: 0px;
+      }
+      .product-page .product-bottom .description,
+      .product-page .product-bottom .reviews{
+          width: 100%;
+          padding-left: 0px;
+      }
+      .product-tabs-item{
+          width: 100%;
+      }
+      .delivery svg{
+          width: 60px;
+          height: 60px;
+      }
+      .delivery-text{
+          bottom: 13px;
+          font-size: 6px;
+      }
+      .badges > div{
+      font-size: 0.5em;
+      }
+      .product-page .fast-info{
+          font-size: 0.6em;
+      }
+      .product-page .spec-name{
+          width: 80%;
+      }
+      .product-page .spec-name s::after{
+          bottom: 6px;
+      }
+      .product-about .trade > div{
+          margin-bottom: 10%;
+      }
+  
+      .footer-head .apps{
+          text-align: center;
+          width: 100%;
+          margin-top: 15px;
+      }
+  
+      .category .product{
+          width: 33.3333%;
+      }
+      .main .products .product-wrapper{
+          width: 33.3333%;
+      }
+      .sidebar{
+
+      }
+}
+  
+@media (max-width: 575px){
+    .category .product{
+        width: 50%;
+    }
+    .category .category-settings-text{
+        display: none;
+    }
+    .main .products .product-wrapper{
+        width: 50%;
+    }
+}
+  
+  @media (max-width: 393px){
+      
+    .main .products .product-wrapper{
+        width: 100%;
+    }
+      .category .product{
+          width: 100%;
+      }
+      
+      .category .before-products{
+          width: 50%;
+      }
+  
+      .category .breadcrums{
+          width: 50%;
+      }
 }

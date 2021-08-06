@@ -1,3 +1,11 @@
 pagination
 svg page
-fakes
+faker
+css 3d
+css variables
+подсветка пунктов меню
+аватарки (обрезка изображений)
+.form-control -> .form-select
+пагинация в админке
+парсим товары (simple_html_dom)
+работа с файлами и папками

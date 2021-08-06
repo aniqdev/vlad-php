@@ -1,6 +1,30 @@
 <?php if(!defined('ROOT'))  die('Direct request not allowed!'); ?>
 <?php
 
+
+
+
+define('db_HOST', 'localhost');
+define('db_USER', 'root');
+define('db_PASS', '');
+define('db_NAME', 'rozetka');
+
+
+
+function db_query($query){
+	if(!$query) return DB::getInstance();
+
+    if (stripos($query, 'select') === 0 || stripos($query, 'show') === 0 || stripos($query, 'describe') === 0) {
+        return DB::getInstance()->get_results($query);
+    }else{
+        return DB::getInstance()->query($query);
+    }
+}
+
+function db_escape($string)
+{
+    return DB::getInstance()->escape($string);
+}
 // echo '<pre>';
 // print_r($_GET);
 // echo '</pre>';
@@ -147,8 +171,7 @@ function query_add($values = [])
 
 function if_selected($name, $value)
 {
-    if(empty($_GET[$name])) return '';
-    return $_GET[$name] === $value ? 'selected' : '';
+    return $name === $value ? 'selected' : '';
 }
 
 function pa($arr)
@@ -156,4 +179,9 @@ function pa($arr)
     echo '<pre>';
     print_r($arr);
     echo '</pre>';
+}
+
+function esc_attr($str)
+{
+     return htmlspecialchars($str, ENT_QUOTES);
 }
