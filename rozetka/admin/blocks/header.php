@@ -9,36 +9,42 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="admin/css/admin.css">
 </head>
-<body>
-
+<body class="<?= $_GET['action'] ?? '' ?>">
+    
 <?php if(!(isset($_GET['action']) && $_GET['action'] === 'login')): ?>
-<div class="admin-top-panel">
-    <h3>Console</h3>
-    <div class="admin-profile">
-        <div class="name">
+    <div class="admin-top-panel">
+        <a href="admin.php?action=console"><h3>Console</h3></a>
+     <div class="admin-profile">
+         <div class="name">
             <?php
-                $user = $_SESSION['user'];
+            $user = $_SESSION['user'];
             ?>
-            Hello <?= $user['name'] ?> <?= $user['last_name'] ?> (<?= $user['email'] ?>)
-        </div>
-        <a href="?logout">logout</a>
+             HEllo <?= $user['name'] ?> <?= $user['last_name'] ?> (<?= $user['email'] ?>)
+         </div>
+         <a href="?logout" class="logout"><i class="bi bi-x-square"></i></a>
+     </div>
     </div>
-</div>
 <div class="admin-left-menu-wrap">
-    <div class="admin-left-menu">
-        <h5 class="js-open-modal" data-target="left-menu-sub-products">Products</h5>
-        <ul class="admin-left-menu-sub list-unstyled" id="left-menu-sub-products">
-            <li><a href="?action=products">Products list</a></li>
-            <li><a href="?action=products-add">Add product</a></li>
-        </ul>
-    </div>
-    <div class="admin-left-menu">
-        <h5 class="js-open-modal" data-target="left-menu-sub-users">Users</h5>
-        <ul class="admin-left-menu-sub list-unstyled" id="left-menu-sub-users">
-            <li><a href="?action=users">Users list</a></li>
-            <li><a href="?action=users-add">Add user</a></li>
-        </ul>
-    </div>
+   
+<div class="admin-left-menu">
+    <h5 class="js-open-modal" data-target="left-menu-sub-products">Products</h5>
+    <ul class="admin-left-menu-sub list-unstyled <?= menu_sub_active('products') ?>" id="left-menu-sub-products">
+        <li><a class="<?= menu_item_active('products') ?>" href="?action=products">Products list</a></li>
+        <li><a class="<?= menu_item_active('products-add') ?>" href="?action=products-add">Add product</a></li>
+    </ul>
+</div>
+<div class="admin-left-menu">
+    <h5 class="js-open-modal" data-target="left-menu-sub-users">Users</h5>
+    <ul class="admin-left-menu-sub list-unstyled <?= menu_sub_active('users') ?>" id="left-menu-sub-users">
+        <li><a class="<?= menu_item_active('users') ?>" href="?action=users">Users list</a></li>
+        <li><a class="<?= menu_item_active('users-add') ?>" href="?action=users-add">Add user</a></li>
+    </ul>
+</div>
+
 </div>
 <?php endif ?>
-<div class="admin-main-content">
+    <div class="admin-main-content">
+
+        <div class="alert-wrapper">
+                <?= flash_get() ?>
+        </div>

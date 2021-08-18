@@ -2,6 +2,17 @@
 
 
 
+
+$total_count = db_query("SELECT count(*) FROM products");
+
+pa($total_count);
+
+$total_count = $total_count ? $total_count[0]['count(*)'] : 0;
+
+pa($total_count);
+
+
+return;
 $mysqli = new mysqli("localhost", "root", "", "rozetka");
 
 

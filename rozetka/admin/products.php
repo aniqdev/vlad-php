@@ -5,7 +5,13 @@
   
   }
 
-$products = db_query("SELECT * FROM products");
+$offset = $_GET['offset'] ?? 0;
+$limit = $_GET['limit'] ?? 5;
+
+$total_count = db_query("SELECT count(*) FROM products");
+$total_count = $total_count ? $total_count[0]['count(*)'] : 0;
+
+$products = db_query("SELECT * FROM products LIMIT $limit OFFSET $offset ");
 function decode_fast_info_json($product)
 {
     $product['fast_info'] = json_decode($product['fast_info'], true);
@@ -15,10 +21,13 @@ $products = array_map('decode_fast_info_json',$products);
 
 
 ?>
-<h2>Products</h2>
+<h2>Products <a href="?action=products-add" class="btn btn-primary">Add product</a></h2>
 
+<?php include 'blocks/admin-page-top.php'; ?>
+  
 <table class="table table-striped">
   <tr>
+      <th></th>
       <th>Title</th>
       <th>Desctiption</th>
       <th>Price</th>
@@ -33,14 +42,19 @@ $products = array_map('decode_fast_info_json',$products);
       <th></th>
 
   </tr>
-  <?php foreach($products as $product): ?>
+  <?php foreach($products as $product): 
+    $card = $product['card'] ? 'cards/'.$product['card'] : 'images/no-image.jpg';
+  ?>
   <tr>
+        <td>
+            <img class="admin-users-avatar" src="<?= $card ?>" alt="">
+        </td>
         <td><?= $product['title'] ?></td>
         <td><?= $product['description'] ?></td>
         <td><?= $product['price'] ?></td>
         <td><?= $product['old_price'] ?></td>
-        <td><?= $product['favorite'] ?></td>
-        <td><?= $product['ends'] ?></td>
+        <td><?= $product['favorite'] ? '<i class="bi bi-heart-fill"></i>' : '<i class="bi bi-heart"></i>' ?></td>
+        <td><?= $product['ends'] ? '<i class="bi bi-emoji-frown-fill"></i>' : '<i class="bi bi-emoji-smile"></i>' ?></td>
         <td><?= $product['sku'] ?></td>
         <td><?= $product['rating'] ?></td>
         <td><?= $product['reviews'] ?></td>

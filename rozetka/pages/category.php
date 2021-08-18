@@ -1,6 +1,7 @@
 <?php if(!defined('ROOT')) die('Direct request not allowed!'); ?>
 <?php
 
+$sorting = $_GET['sorting'] ?? 'default';
 
 $offset = $_GET['offset'] ?? 0;
 $limit = $_GET['limit'] ?? 10;
@@ -64,20 +65,20 @@ $product_count = count($similar_products);
             <span class="category-settings-text">Товаров на странице</span>
             <select oninput="location.href = this.value">
                 <!-- <option>Товаров на странице</option> -->
-                <option <?= if_selected($_GET['limit'], '5') ?> value="<?= query_add(['offset' => 0, 'limit' => '5']) ?>">5</option>
-                <option <?= if_selected($_GET['limit'], '10') ?> value="<?= query_add(['offset' => 0, 'limit' => '10']) ?>">10</option>
-                <option <?= if_selected($_GET['limit'], '20') ?> value="<?= query_add(['offset' => 0, 'limit' => '20']) ?>">20</option>
-                <option <?= if_selected($_GET['limit'], '50') ?> value="<?= query_add(['offset' => 0, 'limit' => '50']) ?>">50</option>
-                <option <?= if_selected($_GET['limit'], '100') ?> value="<?= query_add(['offset' => 0, 'limit' => '100']) ?>">100</option>
+                <option <?= if_selected($limit, '5') ?> value="<?= query_add(['offset' => 0, 'limit' => '5']) ?>">5</option>
+                <option <?= if_selected($limit, '10') ?> value="<?= query_add(['offset' => 0, 'limit' => '10']) ?>">10</option>
+                <option <?= if_selected($limit, '20') ?> value="<?= query_add(['offset' => 0, 'limit' => '20']) ?>">20</option>
+                <option <?= if_selected($limit, '50') ?> value="<?= query_add(['offset' => 0, 'limit' => '50']) ?>">50</option>
+                <option <?= if_selected($limit, '100') ?> value="<?= query_add(['offset' => 0, 'limit' => '100']) ?>">100</option>
                 <!-- <option> Новинки </option> -->
                 <!-- <option> Акционные </option> -->
             </select>
             <select oninput="location.href = this.value">
-                <option <?= if_selected($_GET['sorting'], 'default') ?> value="<?= query_add(['offset' => 0, 'sorting' => 'default']) ?>">Сортировать</option>
-                <option <?= if_selected($_GET['sorting'], 'price_asc') ?> value="<?= query_add(['offset' => 0, 'sorting' => 'price_asc']) ?>"> От дешевых к дорогим </option>
-                <option <?= if_selected($_GET['sorting'], 'price_desc') ?> value="<?= query_add(['offset' => 0, 'sorting' => 'price_desc']) ?>"> От дорогих к дешевым </option>
-                <option <?= if_selected($_GET['sorting'], 'rating') ?> value="<?= query_add(['offset' => 0, 'sorting' => 'rating']) ?>"> Популярные </option>
-                <option <?= if_selected($_GET['sorting'], 'title') ?> value="<?= query_add(['offset' => 0, 'sorting' => 'title']) ?>"> По названию </option>
+                <option <?= if_selected($sorting, 'default') ?> value="<?= query_add(['offset' => 0, 'sorting' => 'default']) ?>">Сортировать</option>
+                <option <?= if_selected($sorting, 'price_asc') ?> value="<?= query_add(['offset' => 0, 'sorting' => 'price_asc']) ?>"> От дешевых к дорогим </option>
+                <option <?= if_selected($sorting, 'price_desc') ?> value="<?= query_add(['offset' => 0, 'sorting' => 'price_desc']) ?>"> От дорогих к дешевым </option>
+                <option <?= if_selected($sorting, 'rating') ?> value="<?= query_add(['offset' => 0, 'sorting' => 'rating']) ?>"> Популярные </option>
+                <option <?= if_selected($sorting, 'title') ?> value="<?= query_add(['offset' => 0, 'sorting' => 'title']) ?>"> По названию </option>
                 <!-- <option> Новинки </option> -->
                 <!-- <option> Акционные </option> -->
             </select>
@@ -95,10 +96,12 @@ $product_count = count($similar_products);
         </div>
     </div>
     <div class="products" id="category_product_list">
-    <?php foreach($similar_products as $id => $product): ?>
+    <?php foreach($similar_products as $id => $product): 
+        $card = $product['card'] ? 'cards/'.$product['card'] : 'images/no-image.jpg';
+        ?>
         <a class="product" href="?action=product&tab=1&id=<?= $id ?>">
             <div class="category-list-item-left">
-                <img src="<?= get_random_img_src() ?>" alt="">
+                <img src="<?php product_image_src($product) ?>" alt="">
             </div>
             <div class="category-list-item-right">
                 <h2 class="title category-title"><?= $product['title'] ?>[<?= $id   ?>]</h2>

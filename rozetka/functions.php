@@ -47,6 +47,23 @@ function is_tab_active($current_tab)
     }
 }
 
+function menu_item_active($current_tab)
+{
+    if(isset($_GET['action']) && $_GET['action'] == $current_tab){
+        return 'active';
+    }else{
+        return '';
+    }
+}
+
+function menu_sub_active($menu_name)
+{
+    if (isset($_GET['action']) && strpos($_GET['action'], $menu_name) === 0) {
+        return 'active';
+    }
+    return '';
+}
+
 function tovarov($count)
 {
     if($count === 0) return 'Ничего не найдено';
@@ -97,6 +114,7 @@ function sklonenie($count, $p1, $p2, $p3)
     return $p3;
 }
 
+
 function my_pagination($offset, $limit, $total_count)
 {
     if($total_count < $limit) return '';
@@ -137,7 +155,7 @@ function my_pagination($offset, $limit, $total_count)
             $link = query_add(['offset' => $i * $limit]);
             //"?action=$action&offset=$new_offset&limit=$limit";
             $button_count++;
-            if($current_page )
+            // if($current_page )
         ?>
             <?php if($current_page == $i): ?>
                 <li><a class="active"><?= $i + 1 ?></a></li>
@@ -152,6 +170,63 @@ function my_pagination($offset, $limit, $total_count)
     <?php else: ?>
         <a class="prev disabled"><i class="bi bi-arrow-right"></i></a>
     <?php endif ?>
+</div>
+<?php
+}
+
+
+function bs_pagination($offset, $limit, $total_count)
+{
+    // if($total_count < $limit) return '';
+    $new_offset = in_range($offset - $limit, 0, $total_count);
+    $prev_link = query_add(['offset' => $new_offset]);
+    $new_offset = in_range($offset + $limit, 0, $total_count);
+    $next_link = query_add(['offset' => $new_offset]);
+?>
+<div>
+    <ul class="pagination">
+        <?php if($offset > 0): ?>
+            <li class='page-item'><a href="<?= $prev_link ?>" class="page-link prev active"><i class="bi bi-arrow-left"></i></a></li>
+        <?php else: ?>
+            <li class='page-item disabled'><a class="page-link prev disabled"><i class="bi bi-arrow-left"></i></a></li>
+        <?php endif ?>
+        <?php
+        $left_prefix = $right_prefix = '';
+        $link_first_page = query_add(['offset' => 0]);
+        $last_page = ceil($total_count / $limit);
+        $link_last_page = query_add(['offset' => $limit * ($last_page - 1)]);
+        $current_page = floor($offset / $limit);
+        $from = $current_page - 2;
+        if($current_page >= 3) $left_prefix = "
+            <li class='page-item'><a class='page-link' href='$link_first_page'>1</a></li>
+            <li class='page-item'><span class='page-link'>...</span></li>";
+        if($current_page == 3) $left_prefix = "
+            <li class='page-item'><a class='page-link' href='$link_first_page'>1</a></li>";
+        if($from < 0) $from = 0;
+        $to = $current_page + 3;
+        if($to > $last_page) $to = $last_page;
+        if($last_page - $current_page > 3) $right_prefix = "
+            <li class='page-item'><span class='page-link'>...</span></li>
+            <li class='page-item'><a class='page-link' href='$link_last_page'>$last_page</a></li>";
+        if($last_page - $current_page == 4) $right_prefix = "
+            <li class='page-item'><a class='page-link' href='$link_last_page'>$last_page</a></li>";
+        echo $left_prefix;
+        for ($i=$from; $i < $to; $i++):
+            $link = query_add(['offset' => $i * $limit]);
+        ?>
+            <?php if($current_page == $i): ?>
+                <li class='page-item active'><a class="page-link active"><?= $i + 1 ?></a></li>
+            <?php else: ?>
+                <li class='page-item'><a class='page-link' href="<?= $link ?>"><?= $i + 1 ?></a></li>
+            <?php endif ?>
+        <?php endfor;
+        echo $right_prefix; ?>
+        <?php if($total_count > $offset + $limit): ?>
+            <li class='page-item'><a href="<?= $next_link ?>" class="page-link prev active"><i class="bi bi-arrow-right"></i></a></li>
+        <?php else: ?>
+            <li class='page-item disabled'><a class="page-link prev disabled"><i class="bi bi-arrow-right"></i></a></li>
+        <?php endif ?>
+    </ul>
 </div>
 <?php
 }
@@ -184,4 +259,117 @@ function pa($arr)
 function esc_attr($str)
 {
      return htmlspecialchars($str, ENT_QUOTES);
+}
+
+
+function flash_set($message)
+{
+    $_SESSION['flash_message'] = $message;
+}
+
+function flash_get()
+{
+    $message = $_SESSION['flash_message'] ?? '';
+    unset($_SESSION['flash_message']);
+    return $message;
+}
+
+function redirect($link)
+{
+    header("Location: $link");
+    exit;
+}
+
+
+function session_take_post($key)
+{
+    return $_SESSION['post'][$key] ?? '';
+}
+
+function session_take_get($key)
+{
+    return $_SESSION['get'][$key] ?? '';
+}
+
+function alert($type, $message)
+{
+    return
+    '<div class="alert alert-' . $type . ' alert-dismissible fade show" role="alert">
+      ' . $message . '
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>';
+}
+
+function flash_alert($type, $message)
+{
+    return flash_set(alert($type, $message));
+}
+
+
+function resizeImage($src, $dst, $width, $height = 0, $crop=0){
+
+  if(!$height) $height = $width;
+
+  if(!list($w, $h) = getimagesize($src)) return "Unsupported picture type!";
+
+  $type = strtolower(substr(strrchr($src,"."),1));
+  if($type == 'jpeg') $type = 'jpg';
+  switch($type){
+    case 'bmp': $img = imagecreatefromwbmp($src); break;
+    case 'gif': $img = imagecreatefromgif($src); break;
+    case 'jpg': $img = imagecreatefromjpeg($src); break;
+    case 'png': $img = imagecreatefrompng($src); break;
+    default : return "Unsupported picture type!";
+  }
+
+  // resize
+  if($crop){
+    if($w < $width or $h < $height) return "Picture is too small!";
+    $ratio = max($width/$w, $height/$h);
+    $h = $height / $ratio;
+    $x = ($w - $width / $ratio) / 2;
+    $w = $width / $ratio;
+  }
+  else{
+    if($w < $width and $h < $height) return "Picture is too small!";
+    $ratio = min($width/$w, $height/$h);
+    $width = $w * $ratio;
+    $height = $h * $ratio;
+    $x = 0;
+  }
+
+  $new = imagecreatetruecolor($width, $height);
+
+  // preserve transparency
+  if($type == "gif" or $type == "png"){
+    imagecolortransparent($new, imagecolorallocatealpha($new, 0, 0, 0, 127));
+    imagealphablending($new, false);
+    imagesavealpha($new, true);
+  }
+
+  imagecopyresampled($new, $img, 0, 0, $x, 0, $width, $height, $w, $h);
+
+  switch($type){
+    case 'bmp': imagewbmp($new, $dst); break;
+    case 'gif': imagegif($new, $dst); break;
+    case 'jpg': imagejpeg($new, $dst); break;
+    case 'png': imagepng($new, $dst); break;
+  }
+  return true;
+}
+
+
+function resizeSaveImage($input, $output, $new_size)
+{
+    resizeImage($input, $output, $new_size);
+}
+
+function get_product_image_src(&$product)
+{
+    return $product['card'] ? 'cards/'.$product['card'] : 'images/no-image.jpg';
+}
+
+function product_image_src(&$product)
+{
+    echo get_product_image_src($product);
 }

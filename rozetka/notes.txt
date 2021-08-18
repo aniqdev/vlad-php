@@ -1,11 +1,13 @@
-pagination
-svg page
-faker
+pagination +
+faker +
 css 3d
 css variables
-подсветка пунктов меню
+подсветка пунктов меню +
 аватарки (обрезка изображений)
-.form-control -> .form-select
-пагинация в админке
+.form-control -> .form-select +
+пагинация в админке +
 парсим товары (simple_html_dom)
 работа с файлами и папками
+flash messages +
+уникальность пользователей
+ресайзить не только jpeg
