@@ -3,36 +3,36 @@
 
 $sorting = $_GET['sorting'] ?? 'default';
 
+
 $offset = $_GET['offset'] ?? 0;
-$limit = $_GET['limit'] ?? 10;
-$total_count = count($similar_products);
-// [1,2,3,4,4,5,6,6,7,7,8]
+$limit = $_GET['limit'] ?? 5;
+
+$total_count = db_query("SELECT count(*) FROM products");
+$total_count = $total_count ? $total_count[0]['count(*)'] : 0;
+
 if (!empty($_GET['sorting']) && $_GET['sorting'] === 'title') {
-    usort($similar_products, function($a, $b)
-    {
-        return $a['title'] > $b['title'];
-    });
+    $products = db_query("SELECT * FROM products ORDER BY title LIMIT $limit OFFSET $offset ");
 }
-if (!empty($_GET['sorting']) && $_GET['sorting'] === 'price_asc') {
-    usort($similar_products, function($a, $b)
-    {
-        return $a['price'] > $b['price'];
-    });
+elseif (!empty($_GET['sorting']) && $_GET['sorting'] === 'price_asc') {
+    $products = db_query("SELECT * FROM products ORDER BY price LIMIT $limit OFFSET $offset ");
 }
-if (!empty($_GET['sorting']) && $_GET['sorting'] === 'price_desc') {
-    usort($similar_products, function($a, $b)
-    {
-        return $a['price'] < $b['price'];
-    });
+elseif (!empty($_GET['sorting']) && $_GET['sorting'] === 'price_desc') {
+    $products = db_query("SELECT * FROM products ORDER BY price DESC LIMIT $limit OFFSET $offset ");
 }
-if (!empty($_GET['sorting']) && $_GET['sorting'] === 'rating') {
-    usort($similar_products, function($a, $b)
-    {
-        return @$a['rating'] < @$b['rating'];
-    });
+elseif (!empty($_GET['sorting']) && $_GET['sorting'] === 'rating') {
+    $products = db_query("SELECT * FROM products ORDER BY rating DESC LIMIT $limit OFFSET $offset ");
 }
-$similar_products = array_slice($similar_products, $offset, $limit, true);
-$product_count = count($similar_products);
+else{
+    $products = db_query("SELECT * FROM products LIMIT $limit OFFSET $offset ");
+}
+
+function decode_fast_info_json($product)
+{
+    $product['fast_info'] = json_decode($product['fast_info'], true);
+    return $product;
+}
+$products = array_map('decode_fast_info_json',$products);
+
 ?>
 <div class="category">
     <ul class="breadcrumbs">
@@ -59,7 +59,7 @@ $product_count = count($similar_products);
     <?php my_pagination($offset, $limit, $total_count); ?>
     <div class="before-products">
         <div class="count">
-            Показано <?= $product_count ?> товар<?= sklonenie($product_count, '', 'а', 'ов') ?>
+            Показано <?= $limit ?> товар<?= sklonenie($limit, '', 'а', 'ов') ?>
         </div>
         <div class="category-settings">
             <span class="category-settings-text">Товаров на странице</span>
@@ -96,15 +96,13 @@ $product_count = count($similar_products);
         </div>
     </div>
     <div class="products" id="category_product_list">
-    <?php foreach($similar_products as $id => $product): 
-        $card = $product['card'] ? 'cards/'.$product['card'] : 'images/no-image.jpg';
-        ?>
-        <a class="product" href="?action=product&tab=1&id=<?= $id ?>">
+    <?php foreach($products as $product): ?>
+        <a class="product" href="?action=product&tab=1&id=<?= $product['id'] ?>">
             <div class="category-list-item-left">
-                <img src="<?php product_image_src($product) ?>" alt="">
+                <img src="<?= get_product_image_src($product) ?>" alt="">
             </div>
             <div class="category-list-item-right">
-                <h2 class="title category-title"><?= $product['title'] ?>[<?= $id   ?>]</h2>
+                <h2 class="title category-title"><?= $product['title'] ?>[<?= $product['id'] ?>]</h2>
                 <?php if(isset($product['old_price'])): ?>
                     <div class="old-price"><?= $product['old_price'] ?> ₴</div>
                 <?php else: ?>

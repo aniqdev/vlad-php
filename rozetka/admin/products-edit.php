@@ -62,9 +62,6 @@ $product = array_map(function($value)
   return esc_attr($value);
 }, $product);
 
-$card = $product['card'] ? 'cards/'.$product['card'] : 'https://via.placeholder.com/250';
-
-
 ?>
 
 <h2>Edit Product <?= $product['title'] ?> <?= $product['description'] ?> (<?= $product['sku'] ?>)</h2>
@@ -73,7 +70,7 @@ $card = $product['card'] ? 'cards/'.$product['card'] : 'https://via.placeholder.
 
 <div class="row">
     <div class="col-lg-3">
-        <img src="<?= $card ?>" class="img-thumbnail" alt="...">
+        <img src="<?= get_product_image_src($product) ?>" class="img-thumbnail" alt="...">
         <div class="mb-3">
           <label for="formFile" class="form-label">Avatar</label>
           <input name="card" class="form-control" type="file" id="formFile">

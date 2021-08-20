@@ -1,3 +1,5 @@
+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
+
 pagination +
 faker +
 css 3d
@@ -11,3 +13,6 @@ css variables
 flash messages +
 уникальность пользователей
 ресайзить не только jpeg
+центрировать изображение товара
+config.php
+товары на главной

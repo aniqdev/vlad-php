@@ -1,4 +1,6 @@
-<?php if(!defined('ROOT'))  die('Direct request not allowed!'); ?>
+<?php if(!defined('ROOT'))  die('Direct request not allowed!'); 
+    
+?>
 <div class="tab-content">
     <div class="product-info">
         <div class="product-images">
@@ -19,8 +21,8 @@
             </div>
 
             <div class="img-prev img-prev1">
-                <a href="https://content1.rozetka.com.ua/goods/images/big/66920866.jpg" data-fancybox="gallery">
-                    <img src="https://content1.rozetka.com.ua/goods/images/preview/66920866.jpg" alt="">
+                <a href="<?= get_product_image_src($product) ?>" data-fancybox="gallery">
+                    <img src="<?= get_product_image_src($product) ?>" alt="">
                 </a>
             </div>
             <div class="img-prev img-prev2">
@@ -44,7 +46,7 @@
                 </a>
             </div>
             <div class="main-image">
-                <img class="img1" src="https://content1.rozetka.com.ua/goods/images/big/66920866.jpg" alt="">
+                <img class="img1" src="<?= get_product_image_src($product) ?>" alt="">
                 <img class="img2" src="https://content.rozetka.com.ua/goods/images/big/66920870.jpg" alt="">
                 <img class="img3" src="https://content.rozetka.com.ua/goods/images/big/66920870.jpg" alt="">
                 <img class="img4" src="https://content.rozetka.com.ua/goods/images/big/66920870.jpg" alt="">

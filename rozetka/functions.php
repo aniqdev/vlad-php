@@ -369,7 +369,8 @@ function get_product_image_src(&$product)
     return $product['card'] ? 'cards/'.$product['card'] : 'images/no-image.jpg';
 }
 
-function product_image_src(&$product)
+
+function bi($icon_name)
 {
-    echo get_product_image_src($product);
+    return "<i class='bi bi-$icon_name'></i>";
 }
